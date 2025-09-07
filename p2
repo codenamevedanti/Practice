@@ -1,0 +1,95 @@
+#include<iostream>
+
+#include<string.h>
+using namespace std;
+class  Item
+{
+    int item_id;
+    string itemname;
+    int price;
+    int stock_quantity;
+ public:
+    void accept()
+    {
+        
+
+        cout<<"enter the name of item \n";
+        cin>>itemname;
+        cout<<"Enter the ID of the item \n";
+        cin>>item_id;
+
+        cout<<"enter the stock auntity of items being purchased. \n";
+        cin>>stock_quantity;
+    }
+    void display()
+    {
+        cout<<"The name if the item is:"<<itemname<<endl;
+        cout<<"The id of the item is "<<item_id<<endl;
+        cout<<"The stock of the item is"<<stock_quantity<<endl;
+    }
+
+};
+
+
+class Bill
+{
+    int bill_id;
+    string customername;
+    string list_of_purchased_items;
+     int itemcount=0;
+    public:
+
+    Bill(int bill_id,string customername,int count)
+    {
+        bill_id=id;
+        customername=cname;
+        itemcount=cnt;
+        list_of_purchased_items= new Item[itemcount];
+    }
+
+    ~Bill()
+    {
+        delete[]list_of_purchased_items;
+    }
+     
+    void getdata()
+    {
+        cout<<"enter the bill id: \n";
+        cin>>bill_id;
+        cin.ignore();
+
+        cout<<"Enter the customer name \n";
+        getline(cin,customername);
+
+        cout<<"Enter the list of purchased data: \n";
+        getline(cin,list_of_purchased_items);
+        
+    }
+    void putdata()
+    {
+        cout<<"The id of the bill is:"<<bill_id<<endl;
+        cout<<"The name of the customer is :\n"<<customername<<endl;
+        cout<<"The list of purchased items :"<<list_of_purchased_items<<endl;
+    }
+
+    Bill operator+(Item &i)
+    {
+    list_of_purchased_items[itemcount]  = i;
+    itemcount++;
+    return *this;
+     }
+    
+
+};
+int main()
+{
+    Item i;
+    Bill b;
+    i.accept();
+    i.display();
+    b.getdata();
+    b.putdata();
+
+    
+    return 0;
+}
