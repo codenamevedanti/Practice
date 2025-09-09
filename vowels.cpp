@@ -16,8 +16,9 @@ int main()
         if (*ptr == 32)
             space++;
         if (*ptr == 'a' || *ptr == 'e' || *ptr == 'i' || *ptr == 'o' || *ptr == 'u')
-
+        {
             vowel++;
+        }
         cnt++;
         ptr++;
     }
@@ -26,4 +27,5 @@ int main()
     cout << "No of spaces:" << space << endl;
     cout << "No of words:" << space + 1 << endl;
     cout << "No of vowels:" << vowel << endl;
+
 }
