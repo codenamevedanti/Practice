@@ -1,0 +1,118 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+// ---------------- Base Abstract Class ----------------
+class Vehicle {
+protected:
+    string customerName;
+    int rentalDays;
+    double rentPerDay;
+public:
+    Vehicle(int days, double rate) : rentalDays(days), rentPerDay(rate) {}
+
+    // Pure Virtual Functions
+    virtual void getValue() = 0;
+    virtual void displayValue() = 0;
+    virtual double calculateRentals() = 0;
+
+    // Common Function for Alert
+    void checkRentalStatus() {
+        if (rentalDays <= 0)
+            cout << "⚠️ ALERT: Rental period is over!" << endl;
+        else
+            cout << "✅ Rental is active for " << rentalDays << " days." << endl;
+    }
+
+    virtual ~Vehicle() {} // Virtual destructor
+};
+
+// ---------------- Derived Class: Bike ----------------
+class Bike : public Vehicle {
+    string bikeModel;
+public:
+    Bike(int days) : Vehicle(days, 200) {} // rent per day = 200
+
+    void getValue() override {
+        cout << "Enter Customer Name for Bike Rental: ";
+        getline(cin, customerName);
+        cout << "Enter Bike Model: ";
+        getline(cin, bikeModel);
+    }
+
+    void displayValue() override {
+        cout << "\n--- Bike Rental Details ---" << endl;
+        cout << "Customer: " << customerName << endl;
+        cout << "Bike Model: " << bikeModel << endl;
+        cout << "Days: " << rentalDays << endl;
+        cout << "Rent per Day: " << rentPerDay << endl;
+    }
+
+    double calculateRentals() override {
+        return rentalDays * rentPerDay;
+    }
+};
+
+// ---------------- Derived Class: Car ----------------
+class Car : public Vehicle {
+    string carModel;
+public:
+    Car(int days) : Vehicle(days, 500) {} // rent per day = 500
+
+    void getValue() override {
+        cout << "Enter Customer Name for Car Rental: ";
+        getline(cin, customerName);
+        cout << "Enter Car Model: ";
+        getline(cin, carModel);
+    }
+
+    void displayValue() override {
+        cout << "\n--- Car Rental Details ---" << endl;
+        cout << "Customer: " << customerName << endl;
+        cout << "Car Model: " << carModel << endl;
+        cout << "Days: " << rentalDays << endl;
+        cout << "Rent per Day: " << rentPerDay << endl;
+    }
+
+    double calculateRentals() override {
+        return rentalDays * rentPerDay;
+    }
+};
+
+// ---------------- Main Function ----------------
+int main() {
+    vector<Vehicle*> rentals;
+
+    // Create 3 bikes (fixed 5 days)
+    for (int i = 0; i < 3; i++) {
+        cout << "\n--- Enter details for Bike " << i + 1 << " ---\n";
+        Vehicle* v = new Bike(5);
+        v->getValue();
+        rentals.push_back(v);
+    }
+
+    // Create 3 cars (fixed 7 days)
+    for (int i = 0; i < 3; i++) {
+        cout << "\n--- Enter details for Car " << i + 1 << " ---\n";
+        Vehicle* v = new Car(7);
+        v->getValue();
+        rentals.push_back(v);
+    }
+
+    // Display all rentals
+    cout << "\n\n========= Rental Summary =========\n";
+    for (auto v : rentals) {
+        v->displayValue();
+        cout << "Total Rent: " << v->calculateRentals() << endl;
+        v->checkRentalStatus();
+        cout << "----------------------------------\n";
+    }
+
+    // Free memory
+    for (auto v : rentals) {
+        delete v;
+    }
+
+    return 0;
+}
